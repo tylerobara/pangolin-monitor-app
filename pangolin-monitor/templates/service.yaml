@@ -1,0 +1,14 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: pangolin-monitor
+  labels:
+    app: pangolin-monitor
+spec:
+  type: {{ .Values.service.type }}
+  selector:
+    app: pangolin-monitor
+  ports:
+    - name: http
+      port: {{ .Values.service.port }}
+      targetPort: 8080

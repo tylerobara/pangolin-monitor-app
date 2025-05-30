@@ -1,0 +1,19 @@
+{{- if .Values.prometheus.enabled }}
+apiVersion: monitoring.coreos.com/v1
+kind: ServiceMonitor
+metadata:
+  name: pangolin-monitor
+  labels:
+    release: {{ .Values.prometheus.release }}
+spec:
+  selector:
+    matchLabels:
+      app: pangolin-monitor
+  endpoints:
+    - port: http
+      interval: 15s
+      path: /metrics
+  namespaceSelector:
+    matchNames:
+      - {{ .Release.Namespace }}
+{{- end }}

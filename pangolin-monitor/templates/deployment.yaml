@@ -1,0 +1,27 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: pangolin-monitor
+spec:
+  replicas: {{ .Values.replicaCount }}
+  selector:
+    matchLabels:
+      app: pangolin-monitor
+  template:
+    metadata:
+      labels:
+        app: pangolin-monitor
+    spec:
+      serviceAccountName: {{ .Values.serviceAccount.name }}
+      containers:
+        - name: pangolin-monitor
+          image: "{{ .Values.image.repository }}:{{ .Values.image.tag }}"
+          imagePullPolicy: {{ .Values.image.pullPolicy }}
+          ports:
+            - containerPort: 8080
+          env:
+            - name: ANNOTATION_KEY
+              value: "{{ .Values.annotation.key }}"
+            - name: ANNOTATION_VALUE
+              value: "{{ .Values.annotation.value }}"
+          resources: {{- toYaml .Values.resources | nindent 12 }}

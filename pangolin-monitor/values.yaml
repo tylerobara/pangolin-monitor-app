@@ -1,0 +1,24 @@
+replicaCount: 1
+
+image:
+  repository: your-docker-repo/pangolin-monitor
+  tag: latest
+  pullPolicy: IfNotPresent
+
+serviceAccount:
+  create: true
+  name: pangolin-monitor
+
+service:
+  type: ClusterIP
+  port: 8080
+
+annotation:
+  key: pangolin/enabled
+  value: "true"
+
+prometheus:
+  enabled: true
+  release: prometheus
+
+resources: {}
